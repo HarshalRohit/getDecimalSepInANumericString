@@ -1,0 +1,83 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+/**
+ *
+ * @author Harshal Rohit
+ */
+public class JavaApplication7 {
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+          String[] text =  {"60,000,00.00", "2,0005", "78.000", "78.456.356"};
+          
+          char sep;
+          for(String t:text){
+              System.out.println("String: " + t + "; dec_sep: " + 
+                      getDecimalSep(t));
+              
+          }
+    }
+
+    //returns ',' ; '.' or 'N' if no decimal sep present
+    private static char getDecimalSep(String number) {
+        int count_dot = countOccurrences(number, '.');
+        int count_comma = countOccurrences(number, ',');
+        int count_digits = number.length() - count_dot - count_comma;
+        
+        if(count_comma == 1 && count_dot == 0){
+            //String contains only 1 comma and no dots
+            /*if comma is at 2nd position in string then comma is used as 
+            /* decimal sep and the number mostly signifies rate quantity 
+            /* counter example 1,7bn where ',' is used as thousand sep
+            */
+            if(number.indexOf(",") == 1){
+                return ',';
+            } else {
+                // no decimal sep present in the string, comma is used as th sep
+                return 'N'; 
+            }
+        } else if(count_comma == 0 && count_dot == 1){
+            if(number.indexOf(".") == 1){
+                return '.';
+            } else {
+                // no decimal sep present in the string, dot is used as th sep
+                return 'N';
+            }
+        } else if(count_comma == 1 && count_dot == 1){
+            /* if both dot and comma occurs only once in the string
+            /*  then whichever is at later position is the decimal sep
+            */
+            if(number.indexOf(',') > number.indexOf('.')){
+                return ',';
+            } else {
+                return '.';
+            }
+        } else {
+            // one of them occurs more than once and other only once
+            // the one occuring once is the decimal sep
+            if(count_dot == 1){
+                return '.';
+            } else if(count_comma == 1) {
+                return ',';
+            }
+        }
+       
+        return 'N';
+    }
+
+    public static int countOccurrences(String haystack, char needle) {
+        int count = 0;
+        for (int i = 0; i < haystack.length(); i++) {
+            if (haystack.charAt(i) == needle) {
+                count++;
+            }
+        }
+        return count;
+    }
+}
